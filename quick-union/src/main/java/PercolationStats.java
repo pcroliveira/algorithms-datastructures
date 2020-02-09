@@ -9,6 +9,10 @@ public class PercolationStats {
 
     private final double[] results;
 
+    private final double mean;
+
+    private final double stddev;
+
     public PercolationStats(int n, int trials) {
         if (n <= 0 || trials <= 0) {
             throw new IllegalArgumentException("Size of the grid or number of trials should be greater than 0.");
@@ -18,6 +22,9 @@ public class PercolationStats {
         this.results = new double[trials];
 
         implementPercolation(n);
+
+        this.mean = StdStats.mean(results);
+        this.stddev = StdStats.stddev(results);
     }
 
     private void implementPercolation(int n) {
@@ -36,19 +43,19 @@ public class PercolationStats {
     }
 
     public double mean() {
-        return StdStats.mean(results);
+        return mean;
     }
 
     public double stddev() {
-        return StdStats.stddev(results);
+        return stddev;
     }
 
     public double confidenceLo() {
-        return mean() - (CONFIDENCE_CONST * stddev()) / Math.sqrt(trials);
+        return mean - (CONFIDENCE_CONST * stddev) / Math.sqrt(trials);
     }
 
     public double confidenceHi() {
-        return mean() + (CONFIDENCE_CONST * stddev()) / Math.sqrt(trials);
+        return mean + (CONFIDENCE_CONST * stddev) / Math.sqrt(trials);
     }
 
     public static void main(String[] args) {
