@@ -11,7 +11,7 @@ public class Percolation {
 
     public Percolation(int n) {
         if (n <= 0) {
-            throw new java.lang.IllegalArgumentException("n can not be 0 or negative.");
+            throw new IllegalArgumentException("n can not be 0 or negative.");
         }
 
         this.grid = new boolean[n][n];
@@ -26,7 +26,7 @@ public class Percolation {
 
     private void assertPosition(int row, int col) {
         if (isPositionInvalid(row, col)) {
-            throw new java.lang.IllegalArgumentException("Position is outside the prescribed range.");
+            throw new IllegalArgumentException("Position is outside the prescribed range.");
         }
     }
 
@@ -39,16 +39,14 @@ public class Percolation {
             grid[row - 1][col - 1] = true;
             numOpenSites++;
 
-            RowCol[] rowColArray = new RowCol[] {
-                    new RowCol(row - 1, col),
-                    new RowCol(row + 1, col),
-                    new RowCol(row, col - 1),
-                    new RowCol(row, col + 1)
-            };
+            int[] rows = {row - 1, row + 1, row, row};
+            int[] cols = {col, col, col - 1, col + 1};
+            
+            for (int i = 0; i < rows.length; i++) {
+                int neighbourIndex = rowColToIndex(rows[i], cols[i]);
 
-            for (RowCol eachRowCol:rowColArray) {
-                if (!isPositionInvalid(eachRowCol.row, eachRowCol.col) && isOpen(eachRowCol.row, eachRowCol.col)) {
-                    weightedQuickUnionUF.union(index, rowColToIndex(eachRowCol.row, eachRowCol.col));
+                if (!isPositionInvalid(rows[i], cols[i]) && isOpen(rows[i], cols[i])) {
+                    weightedQuickUnionUF.union(index, neighbourIndex);
                 }
             }
         }
@@ -63,11 +61,13 @@ public class Percolation {
     public boolean isFull(int row, int col) {
         assertPosition(row, col);
 
-        int index = rowColToIndex(row, col);
+        if (isOpen(row, col)) {
+            int index = rowColToIndex(row, col);
 
-        for (int i = 1; i <= n; i++) {
-            if (weightedQuickUnionUF.connected(index, rowColToIndex(1, i))) {
-                return true;
+            for (int i = 1; i <= n; i++) {
+                if (weightedQuickUnionUF.connected(index, rowColToIndex(1, i))) {
+                    return true;
+                }
             }
         }
 
@@ -92,19 +92,6 @@ public class Percolation {
         return (row - 1) * n + (col - 1);
     }
 
-    private static class RowCol {
-
-        private final int row;
-
-        private final int col;
-
-        public RowCol(int row, int col) {
-            this.row = row;
-            this.col = col;
-        }
-
-    }
-
     public static void main(String[] args) {
         final int n = 20;
         Percolation p = new Percolation(n);
@@ -117,7 +104,7 @@ public class Percolation {
             p.open(siteRow, siteCol);
         }
 
-        ths = (double) p.numberOfOpenSites()/ (n * n);;
+        ths = (double) p.numberOfOpenSites()/ (n * n);
 
         System.out.println(ths);
     }

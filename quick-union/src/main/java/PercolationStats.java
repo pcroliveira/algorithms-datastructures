@@ -3,6 +3,8 @@ import edu.princeton.cs.algs4.StdRandom;
 
 public class PercolationStats {
 
+    private static final double CONFIDENCE_CONST = 1.96d;
+
     private final int trials;
 
     private final double[] results;
@@ -20,7 +22,7 @@ public class PercolationStats {
 
     private void implementPercolation(int n) {
         for (int i = 0; i < trials; i++) {
-            Percolation percolation = new Percolation(n);
+            final Percolation percolation = new Percolation(n);
 
             while (!percolation.percolates()) {
                 int siteRow = StdRandom.uniform(n) + 1;
@@ -42,11 +44,11 @@ public class PercolationStats {
     }
 
     public double confidenceLo() {
-        return mean() - (1.96 * stddev()) / Math.sqrt(trials);
+        return mean() - (CONFIDENCE_CONST * stddev()) / Math.sqrt(trials);
     }
 
     public double confidenceHi() {
-        return mean() + (1.96 * stddev()) / Math.sqrt(trials);
+        return mean() + (CONFIDENCE_CONST * stddev()) / Math.sqrt(trials);
     }
 
     public static void main(String[] args) {
@@ -54,14 +56,14 @@ public class PercolationStats {
 
         if (args.length < 2) {
             System.out.println("usage: java PercolationStats n trials");
-            System.exit(1);
+            return;
         }
 
         try {
             pStats = new PercolationStats(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
         } catch (NumberFormatException e) {
-            System.err.println("Command line arguments must be integers.");
-            System.exit(1);
+            System.out.println("Command line arguments must be integers.");
+            return;
         }
 
         System.out.println("mean = " + pStats.mean());
