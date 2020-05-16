@@ -93,7 +93,6 @@ public class Point implements Comparable<Point> {
         if (that == null) {
             throw new NullPointerException("User must specify x and y coordinates of the point.");
         }
-        //pelo argumento receber o tipo Point não é preciso fazer ClassCastException?
 
         if (this.y < that.y) { return -1;}
         if (this.y == that.y) {
