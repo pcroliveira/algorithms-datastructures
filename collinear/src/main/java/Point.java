@@ -68,7 +68,7 @@ public class Point implements Comparable<Point> {
         double dx = that.x - this.x;
 
         if (dy == 0) {
-            if (dx == 0) { return Double.NEGATIVE_INFINITY;}
+            if (dx == 0) { return Double.NEGATIVE_INFINITY; }
 
             return 0;
         }
@@ -94,7 +94,7 @@ public class Point implements Comparable<Point> {
             throw new NullPointerException("User must specify x and y coordinates of the point.");
         }
 
-        if (this.y < that.y) { return -1;}
+        if (this.y < that.y) { return -1; }
         if (this.y == that.y) {
             if (this.x < that.x) { return -1; }
             else if (this.x == that.x) { return 0; }
@@ -109,10 +109,10 @@ public class Point implements Comparable<Point> {
      * @return the Comparator that defines this ordering on points
      */
     public Comparator<Point> slopeOrder() {
-        return new slopeComparator();
+        return new SlopeComparator();
     }
 
-    private class slopeComparator implements Comparator<Point> {
+    private class SlopeComparator implements Comparator<Point> {
 
         @Override
         public int compare(Point o1, Point o2) {
@@ -142,108 +142,4 @@ public class Point implements Comparable<Point> {
         return "(" + x + ", " + y + ")";
     }
 
-    /**
-     * Unit tests the Point data type.
-     */
-    public static void main(String[] args) {
-
-        Point point0 = new Point(2,3);
-        Point point1 = new Point(4,3);
-        Point point2 = new Point(10,2);
-        Point point3 = new Point(2, 10);
-
-        System.out.println("Point 0:" + point0.toString());
-        System.out.println("Point 1:" + point1.toString());
-        System.out.println("Point 2:" + point2.toString());
-        System.out.println("Point 3:" + point3.toString());
-
-        //draw point
-        point0.draw();
-        point1.draw();
-        point2.draw();
-        point3.draw();
-
-        //compare points by coordinates
-        switch (point0.compareTo(point1)) {
-            case -1:
-                System.out.println("Point 0 is less than point 1");
-                break;
-            case 0:
-                System.out.println("Point 0 is equal to point 1");
-                break;
-            case 1:
-                System.out.println("Point 0 is greater than point 1");
-        }
-        switch (point1.compareTo(point2)) {
-            case -1:
-                System.out.println("Point 1 is less than point 2");
-                break;
-            case 0:
-                System.out.println("Point 1 is equal to point 2");
-                break;
-            case 1:
-                System.out.println("Point 1 is greater than point 2");
-        }
-        switch (point0.compareTo(point2)) {
-            case -1:
-                System.out.println("Point 0 is less than point 2");
-                break;
-            case 0:
-                System.out.println("Point 0 is equal to point 2");
-                break;
-            case 1:
-                System.out.println("Point 0 is greater than point 2");
-        }
-        switch (point0.compareTo(point3)) {
-            case -1:
-                System.out.println("Point 0 is less than point 3");
-                break;
-            case 0:
-                System.out.println("Point 0 is equal to point 3");
-                break;
-            case 1:
-                System.out.println("Point 0 is greater than point 3");
-        }
-        switch (point1.compareTo(point3)) {
-            case -1:
-                System.out.println("Point 1 is less than point 3");
-                break;
-            case 0:
-                System.out.println("Point 1 is equal to point 3");
-                break;
-            case 1:
-                System.out.println("Point 1 is greater than point 3");
-        }
-        switch (point2.compareTo(point3)) {
-            case -1:
-                System.out.println("Point 2 is less than point 3");
-                break;
-            case 0:
-                System.out.println("Point 2 is equal to point 3");
-                break;
-            case 1:
-                System.out.println("Point 2 is greater than point 3");
-        }
-
-        //draw a line from two points
-        point0.drawTo(point1);
-        point0.drawTo(point2);
-        point0.drawTo(point3);
-
-        //slope
-        System.out.println("Slope from point 0 to point 1 is:" + point0.slopeTo(point1));
-        System.out.println("Slope from point 0 to point 2 is:" + point0.slopeTo(point2));
-        System.out.println("Slope from point 0 to point 3 is:" + point0.slopeTo(point3));
-
-        //compare points by their slope to the invoking point
-        Comparator<Point> c = point0.slopeOrder();
-        int comparison = c.compare(point1, point2);
-        if (comparison < 0){
-            System.out.println("Point 1 is less than point 2");
-        } else if ( comparison == 0 ){
-            System.out.println("Point 1 is collinear to point 2");
-        } else {
-            System.out.println("Point 1 is greater than point 2");
-        }
-    }
 }

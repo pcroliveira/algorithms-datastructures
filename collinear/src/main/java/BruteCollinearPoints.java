@@ -16,7 +16,9 @@ public class BruteCollinearPoints {
         }
 
         for (Point p : points) {
-            if (p == null) { throw new IllegalArgumentException("User must specify coordinates for each point.");}
+            if (p == null) {
+                throw new IllegalArgumentException("User must specify coordinates for each point.");
+            }
         }
 
         int nPoints = points.length;
@@ -42,13 +44,13 @@ public class BruteCollinearPoints {
                         Point minPoint = points[i];
                         Point maxPoint = points[i];
 
-                        if (pointsIJ > 0 && pointsJK < 0 && pointsJL < 0) {minPoint = points[j];}
-                        else if (pointsIK > 0 && pointsJK > 0 && pointsKL < 0) {minPoint = points[k]; }
-                        else if (pointsIL > 0 && pointsJL > 0 && pointsKL > 0) {minPoint = points[l]; }
+                        if (pointsIJ > 0 && pointsJK < 0 && pointsJL < 0) { minPoint = points[j]; }
+                        else if (pointsIK > 0 && pointsJK > 0 && pointsKL < 0) { minPoint = points[k]; }
+                        else if (pointsIL > 0 && pointsJL > 0 && pointsKL > 0) { minPoint = points[l]; }
 
-                        if (pointsIJ < 0 && pointsJK > 0 && pointsJL > 0) {maxPoint = points[j];}
-                        else if (pointsIK < 0 && pointsJK < 0 && pointsKL > 0) {maxPoint = points[k]; }
-                        else if (pointsIL < 0 && pointsJL < 0 && pointsKL < 0) {maxPoint = points[l]; }
+                        if (pointsIJ < 0 && pointsJK > 0 && pointsJL > 0) { maxPoint = points[j]; }
+                        else if (pointsIK < 0 && pointsJK < 0 && pointsKL > 0) { maxPoint = points[k]; }
+                        else if (pointsIL < 0 && pointsJL < 0 && pointsKL < 0) { maxPoint = points[l]; }
 
                         if (points[i].slopeTo(points[j]) == points[i].slopeTo(points[k]) &&
                                 points[i].slopeTo(points[j]) == points[i].slopeTo(points[l])) {

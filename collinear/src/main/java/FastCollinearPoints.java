@@ -8,7 +8,6 @@ import java.util.Comparator;
 
 public class FastCollinearPoints {
 
-    private int nSegments;
     private final ArrayList<LineSegment> lineSegments;
 
     public FastCollinearPoints(Point[] points) {
@@ -17,11 +16,12 @@ public class FastCollinearPoints {
             throw new IllegalArgumentException("User must specify a vector of points.");
         }
         for (Point p : points) {
-            if (p == null) { throw new IllegalArgumentException("User must specify coordinates for each point.");}
+            if (p == null) {
+                throw new IllegalArgumentException("User must specify coordinates for each point.");
+            }
         }
 
         int nPoints = points.length;
-        this.nSegments = 0;
         this.lineSegments = new ArrayList<>();
 
         Arrays.sort(points);
@@ -63,11 +63,11 @@ public class FastCollinearPoints {
     }
 
     public int numberOfSegments() {
-        return nSegments;
+        return lineSegments.size();
     }
 
     public LineSegment[] segments() {
-        return lineSegments.toArray(new LineSegment[nSegments]);
+        return lineSegments.toArray(new LineSegment[lineSegments.size()]);
     }
 
     public static void main(String[] args) {
